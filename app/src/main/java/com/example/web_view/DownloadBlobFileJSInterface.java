@@ -27,12 +27,12 @@ public class DownloadBlobFileJSInterface {
             convertToGifAndProcess(base64Data,fileName);
         }
 
-        @JavascriptInterface
-        public File getRecordList(){
-            File file = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS) + "/1.webm");
-            return file;
-        }
+//        @JavascriptInterface
+//        public File getRecordList(){
+//            File file = new File(Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_DOWNLOADS) + "/1.webm");
+//            return file;
+//        }
 
 //        /**
 //         * 插入js代码，转换成base64
