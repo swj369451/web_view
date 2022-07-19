@@ -27,39 +27,6 @@ public class DownloadBlobFileJSInterface {
         convertToGifAndProcess(base64Data, fileName);
     }
 
-//    @JavascriptInterface
-//    public File getRecordList(Object o) {
-//        File file = new File(Environment.getExternalStoragePublicDirectory(
-//                Environment.DIRECTORY_DOWNLOADS) + "/1.webm");
-//        return file;
-//    }
-
-//        /**
-//         * 插入js代码，转换成base64
-//         * @param blobUrl 获取到的url
-//         * @return
-//         */
-//        public static String getBase64StringFromBlobUrl(String blobUrl) {
-//            if (blobUrl.startsWith("blob")) {
-//                return "javascript: var xhr = new XMLHttpRequest();" +
-//                        "xhr.open('GET', '" + blobUrl + "', true);" +
-//                        "xhr.responseType = 'blob';" +
-//                        "xhr.onload = function(e) {" +
-//                        "    if (this.status == 200) {" +
-//                        "        var blobFile = this.response;" +
-//                        "        var reader = new FileReader();" +
-//                        "        reader.readAsDataURL(blobFile);" +
-//                        "        reader.onloadend = function() {" +
-//                        "            base64data = reader.result;" +
-//                        "            Android.getBase64FromBlobData(base64data);" +
-//                        "        }" +
-//                        "    }" +
-//                        "};" +
-//                        "xhr.send();";
-//            }
-//            return "javascript: console.log('It is not a Blob URL');";
-//        }
-
     /**
      * 转换成file
      *
