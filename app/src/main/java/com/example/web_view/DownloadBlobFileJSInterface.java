@@ -7,60 +7,56 @@ import android.webkit.JavascriptInterface;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DownloadBlobFileJSInterface {
     private Context mContext;
-    private DownloadGifSuccessListener mDownloadGifSuccessListener;
+    private DownloadSuccessListener mDownloadSuccessListener;
 
     public DownloadBlobFileJSInterface(Context context) {
         this.mContext = context;
     }
 
-    public void setDownloadGifSuccessListener(DownloadGifSuccessListener listener) {
-        mDownloadGifSuccessListener = listener;
-    }
-
-    @JavascriptInterface
-    public void getBase64FromBlobData(String base64Data, String fileName) {
-        convertToGifAndProcess(base64Data, fileName);
+    /**
+     * 设置下载回调函数
+     * @param listener
+     */
+    public void setDownloadGifSuccessListener(DownloadSuccessListener listener) {
+        mDownloadSuccessListener = listener;
     }
 
     /**
-     * 转换成file
-     *
-     * @param base64
+     * 给js调用的接口，用于保持录制视频文件
+     * @param base64Data    base64数据
+     * @param fileName      保持的文件名
      */
-    private void convertToGifAndProcess(String base64, String fileName) {
-        creatfile(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS));
-        File gifFile = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS) + "/" + fileName);
+    @JavascriptInterface
+    public void getBase64FromBlobData(String base64Data, String fileName) {
+        File downloadFile = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS);
+        if(!downloadFile.exists()){
+            downloadFile.mkdir();
+        }
 
-        saveFileToPath(base64, gifFile);
-        if (mDownloadGifSuccessListener != null) {
-            mDownloadGifSuccessListener.downloadGifSuccess(gifFile.getAbsolutePath());
+        File filePath = new File(downloadFile + "/" + fileName);
+        saveFileToPath(base64Data, filePath);
+
+        if (mDownloadSuccessListener != null) {
+            mDownloadSuccessListener.downloadSuccess(filePath.getAbsolutePath());
         }
     }
 
-    private void creatfile(File dir) {
-        if (!dir.exists())
-            dir.mkdir();
-        return;
-    }
 
     /**
      * 保存文件
      *
      * @param base64
-     * @param gifFilePath
+     * @param filePath 文件路径
      */
-    private void saveFileToPath(String base64, File gifFilePath) {
+    private void saveFileToPath(String base64, File filePath) {
         try {
             byte[] fileBytes = Base64.decode(base64.replaceFirst(
                     "data:image/gif;base64,", ""), 0);
-            FileOutputStream os = new FileOutputStream(gifFilePath, false);
+            FileOutputStream os = new FileOutputStream(filePath, false);
             os.write(fileBytes);
             os.flush();
             os.close();
@@ -69,7 +65,10 @@ public class DownloadBlobFileJSInterface {
         }
     }
 
-    public interface DownloadGifSuccessListener {
-        void downloadGifSuccess(String absolutePath);
+    /**
+     * 下载回调函数
+     */
+    public interface DownloadSuccessListener {
+        void downloadSuccess(String absolutePath);
     }
 }
