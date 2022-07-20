@@ -1,4 +1,4 @@
-package com.example.web_view;
+package com.example.web_view.webrtc;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +27,27 @@ import static android.content.Context.MEDIA_PROJECTION_SERVICE;
 import static org.webrtc.ContextUtils.getApplicationContext;
 
 public class WebRTC {
+    private static WebRTC instance;
+    private MediaStream mediaStream;
+
+    private WebRTC() {
+    }
+
+    public static WebRTC get() {
+        if (instance == null) {
+            synchronized (SignalingClient.class) {
+                if (instance == null) {
+                    instance = new WebRTC();
+                }
+            }
+        }
+        return instance;
+    }
+
+
+
+
+
     private SurfaceTextureHelper surfaceTextureHelper;
     private PeerConnectionFactory peerConnectionFactory;
     private EglBase.Context eglBaseContext;
@@ -90,6 +111,10 @@ public class WebRTC {
         });
     }
     public MediaStream getScreenStream(){
+        if(mediaStream!=null){
+            return mediaStream;
+        }
+
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
         //创建视频源
@@ -99,11 +124,15 @@ public class WebRTC {
         //创建视频轨道
         VideoTrack videoTrack = peerConnectionFactory.createVideoTrack("101", videoSource);
         // display in localView
-        if(surfaceTextureHelper!=null){
+        if(surfaceViewRenderer!=null){
             videoTrack.addSink(surfaceViewRenderer);
         }
-        MediaStream mediaStream = peerConnectionFactory.createLocalMediaStream("mediaStream");
+        mediaStream = peerConnectionFactory.createLocalMediaStream("mediaStream");
         mediaStream.addTrack(videoTrack);
         return mediaStream;
+    }
+
+    public PeerConnectionFactory getPeerConnectionFactory() {
+        return peerConnectionFactory;
     }
 }

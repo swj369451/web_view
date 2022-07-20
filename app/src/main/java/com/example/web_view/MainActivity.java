@@ -1,12 +1,8 @@
 
 package com.example.web_view;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.PermissionRequest;
@@ -16,19 +12,18 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 
+import com.example.web_view.webrtc.MediaCommunication;
+import com.example.web_view.webrtc.WebRTC;
+
 import org.webrtc.SurfaceViewRenderer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
-
-    private final static int PERMISSIONS_REQUEST_CODE = 1;
 
     private WebView mWebView;
     private WebRTC webRTC;
@@ -50,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         permission.requestPermission();
 
 
+//        mediaCommunication.init("1");
     }
 
     private void init() {
@@ -91,12 +87,16 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show());
         mWebView.addJavascriptInterface(mDownloadBlobFileJSInterface, "Android");
 
+
+        MediaCommunication mediaCommunication = new MediaCommunication(this);
+        mWebView.addJavascriptInterface(mediaCommunication, "AndroidWebRTC");
+
         mWebView.loadUrl("https://webrtccommunication.ppamatrix.com:1447/rtc/index.html");
 
         localView = findViewById(R.id.localView);
-        webRTC = new WebRTC();
+        webRTC = WebRTC.get();
         webRTC.init(this);
-        webRTC.renderView(localView);
+//        webRTC.renderView(localView);
         webRTC.getScreenSourceData();
 
     }
