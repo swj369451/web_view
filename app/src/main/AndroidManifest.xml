@@ -16,7 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".broadcast.MyBroadcastReceiver"
+            android:permission="true">
+            <intent-filter>
+                <action android:name="myBroadcastReceiver" />
+            </intent-filter>
+        </receiver>
+
     </application>
+
+
+
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
