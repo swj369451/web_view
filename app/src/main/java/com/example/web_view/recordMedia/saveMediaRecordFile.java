@@ -1,4 +1,4 @@
-package com.example.web_view;
+package com.example.web_view.recordMedia;
 
 import android.content.Context;
 import android.os.Environment;
@@ -8,16 +8,20 @@ import android.webkit.JavascriptInterface;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class DownloadBlobFileJSInterface {
+public class saveMediaRecordFile {
     private Context mContext;
     private DownloadSuccessListener mDownloadSuccessListener;
 
-    public DownloadBlobFileJSInterface(Context context) {
+    public static final File downloadFile = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_DOWNLOADS);
+
+    public saveMediaRecordFile(Context context) {
         this.mContext = context;
     }
 
     /**
      * 设置下载回调函数
+     *
      * @param listener
      */
     public void setDownloadGifSuccessListener(DownloadSuccessListener listener) {
@@ -26,14 +30,13 @@ public class DownloadBlobFileJSInterface {
 
     /**
      * 给js调用的接口，用于保持录制视频文件
-     * @param base64Data    base64数据
-     * @param fileName      保持的文件名
+     *
+     * @param base64Data base64数据
+     * @param fileName   保持的文件名
      */
     @JavascriptInterface
     public void getBase64FromBlobData(String base64Data, String fileName) {
-        File downloadFile = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS);
-        if(!downloadFile.exists()){
+        if (!downloadFile.exists()) {
             downloadFile.mkdir();
         }
 
@@ -71,4 +74,7 @@ public class DownloadBlobFileJSInterface {
     public interface DownloadSuccessListener {
         void downloadSuccess(String absolutePath);
     }
+
+
+
 }

@@ -12,6 +12,8 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 
+import com.example.web_view.fileManager.DeleteFile;
+import com.example.web_view.recordMedia.saveMediaRecordFile;
 import com.example.web_view.webrtc.MediaCommunication;
 import com.example.web_view.webrtc.WebRTC;
 
@@ -36,16 +38,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //检查权限
-        permission = new Permissions(this, this, new Permissions.SuccessListener() {
-            @Override
-            public void success() {
-                init();
-            }
-        });
+        permission = new Permissions(this, this, this::init);
         permission.requestPermission();
 
 
-//        mediaCommunication.init("1");
+
+
+
     }
 
     private void init() {
@@ -80,12 +79,12 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         //设置下载调用函数
-        DownloadBlobFileJSInterface mDownloadBlobFileJSInterface = new DownloadBlobFileJSInterface(this);
-        mDownloadBlobFileJSInterface.setDownloadGifSuccessListener(absolutePath ->
+        saveMediaRecordFile mSaveMediaRecordFile = new saveMediaRecordFile(this);
+        mSaveMediaRecordFile.setDownloadGifSuccessListener(absolutePath ->
                 Toast.makeText(MainActivity.this,
                         String.format("下载成功，【】", absolutePath),
                         Toast.LENGTH_LONG).show());
-        mWebView.addJavascriptInterface(mDownloadBlobFileJSInterface, "Android");
+        mWebView.addJavascriptInterface(mSaveMediaRecordFile, "Android");
 
 
         MediaCommunication mediaCommunication = new MediaCommunication(this);
