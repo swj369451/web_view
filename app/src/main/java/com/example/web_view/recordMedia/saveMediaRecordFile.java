@@ -2,8 +2,12 @@ package com.example.web_view.recordMedia;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.StatFs;
 import android.util.Base64;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
+
+import com.example.web_view.fileManager.DeleteFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +17,8 @@ public class saveMediaRecordFile {
     private DownloadSuccessListener mDownloadSuccessListener;
 
     public static final File downloadFile = Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_DOWNLOADS);
+            Environment.DIRECTORY_DOWNLOADS+"/record");
+    private String TAG =this.getClass().getSimpleName();
 
     public saveMediaRecordFile(Context context) {
         this.mContext = context;
@@ -39,6 +44,13 @@ public class saveMediaRecordFile {
         if (!downloadFile.exists()) {
             downloadFile.mkdir();
         }
+
+        if(!checkTheStorageCapacity(500)){
+            DeleteFile deleteFile = new DeleteFile();
+            deleteFile.delete(saveMediaRecordFile.downloadFile, 1);
+        }
+
+
 
         File filePath = new File(downloadFile + "/" + fileName);
         saveFileToPath(base64Data, filePath);
@@ -75,6 +87,24 @@ public class saveMediaRecordFile {
         void downloadSuccess(String absolutePath);
     }
 
-
-
+    /**
+     * 检查存储容量有没有达到阈值
+     * @param storageThresholdValue  存储阈值
+     * @return
+     */
+    private Boolean checkTheStorageCapacity(int storageThresholdValue) {
+        Log.e(TAG, "低存储警告");
+        File root = Environment.getDataDirectory();
+        StatFs sf = new StatFs(root.getPath());
+        long blockSize = sf.getBlockSizeLong();//获取单个数据块的大小
+        long blockCount = sf.getBlockCountLong();//获取所有的数据块数
+        long availCount = sf.getAvailableBlocksLong();//空闲的数据块的数量
+        long allCapacity = (blockSize * blockCount) / 1024 / 1024;//总数据容量
+        long freeCapacity = (blockSize * availCount) / 1024 / 1024;//可用数据容量
+        if (freeCapacity > storageThresholdValue ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

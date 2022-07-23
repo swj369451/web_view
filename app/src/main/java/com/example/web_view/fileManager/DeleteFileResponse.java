@@ -14,4 +14,21 @@ public class DeleteFileResponse {
     private String filepath;
     //已删除文件名
     private List<String> deletedFilename = new ArrayList<>();
+
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
+    public List<String> getDeletedFilename() {
+        return deletedFilename;
+    }
+
+    public void setDeletedFilename(List<String> deletedFilename) {
+        this.deletedFilename = deletedFilename;
+    }
 }

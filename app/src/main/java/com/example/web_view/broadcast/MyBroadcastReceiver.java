@@ -21,16 +21,16 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
 
         if (action.equals(Intent.ACTION_DEVICE_STORAGE_LOW)) {
-            Log.e(TAG, "低存储警告");
-            File root = Environment.getDataDirectory();
-            StatFs sf = new StatFs(root.getPath());
-            long blockSize = sf.getBlockSize();//获取单个数据块的大小
-            long blockCount = sf.getBlockCount();//获取所有的数据块数
-            long availCount = sf.getAvailableBlocks();//空闲的数据块的数量
-            long allCapacity = (blockSize * blockCount) / 1024 / 1024;//总数据容量
-            long freeCapacity = (blockSize * availCount) / 1024 / 1024;//可用数据容量
-            DeleteFile deleteFile = new DeleteFile();
-            deleteFile.delete(saveMediaRecordFile.downloadFile, 1);
+//            Log.e(TAG, "低存储警告");
+//            File root = Environment.getDataDirectory();
+//            StatFs sf = new StatFs(root.getPath());
+//            long blockSize = sf.getBlockSize();//获取单个数据块的大小
+//            long blockCount = sf.getBlockCount();//获取所有的数据块数
+//            long availCount = sf.getAvailableBlocks();//空闲的数据块的数量
+//            long allCapacity = (blockSize * blockCount) / 1024 / 1024;//总数据容量
+//            long freeCapacity = (blockSize * availCount) / 1024 / 1024;//可用数据容量
+//            DeleteFile deleteFile = new DeleteFile();
+//            deleteFile.delete(saveMediaRecordFile.downloadFile, 1);
         }
 
 
