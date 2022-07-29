@@ -46,7 +46,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             //自启动APP（Activity）
             context.startActivity(intent);
             //自启动服务（Service）
-            //context.startService(intent);
+            context.startService(intent);
         }
 
 
