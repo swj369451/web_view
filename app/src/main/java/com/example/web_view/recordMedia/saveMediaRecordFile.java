@@ -20,9 +20,6 @@ public class saveMediaRecordFile {
             Environment.DIRECTORY_DOWNLOADS+"/record");
     private String TAG =this.getClass().getSimpleName();
 
-    public saveMediaRecordFile() {
-    }
-
     /**
      * 设置下载回调函数
      *
