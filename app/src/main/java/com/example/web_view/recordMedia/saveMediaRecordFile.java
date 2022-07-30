@@ -13,15 +13,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class saveMediaRecordFile {
-    private Context mContext;
+
     private DownloadSuccessListener mDownloadSuccessListener;
 
     public static final File downloadFile = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_DOWNLOADS+"/record");
     private String TAG =this.getClass().getSimpleName();
 
-    public saveMediaRecordFile(Context context) {
-        this.mContext = context;
+    public saveMediaRecordFile() {
     }
 
     /**

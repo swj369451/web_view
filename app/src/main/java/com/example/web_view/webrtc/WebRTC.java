@@ -82,11 +82,6 @@ public class WebRTC {
                 .createPeerConnectionFactory();
     }
 
-    public void renderView(SurfaceViewRenderer surfaceViewRenderer) {
-        surfaceViewRenderer.init(eglBaseContext, null);
-        this.surfaceViewRenderer=surfaceViewRenderer;
-    }
-
     public void getScreenSourceData() {
         if (Build.VERSION.SDK_INT < 21) {
             Toast.makeText(context, "您的手机不支持这个功能", Toast.LENGTH_SHORT).show();

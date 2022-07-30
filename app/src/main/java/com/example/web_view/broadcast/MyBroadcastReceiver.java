@@ -37,7 +37,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         }
 
         //此处及是重启的之后，打开我们app的方法
-        if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
+        if ("android.intent.action.BOOT_COMPLETED".equals(action)) {
             Log.e(TAG, "自重启");
             Toast.makeText(context, "自重启", Toast.LENGTH_SHORT).show();
             intent = new Intent(context, MainActivity.class);
@@ -48,7 +48,5 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             //自启动服务（Service）
             context.startService(intent);
         }
-
-
     }
 }

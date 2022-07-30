@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     private WebView mWebView;
     private WebRTC webRTC;
-    private SurfaceViewRenderer localView;
     private Permissions permission;
 
     @Override
@@ -40,10 +39,6 @@ public class MainActivity extends AppCompatActivity {
         //检查权限
         permission = new Permissions(this, this, this::init);
         permission.requestPermission();
-
-
-
-
 
     }
 
@@ -79,23 +74,22 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         //设置下载调用函数
-        saveMediaRecordFile mSaveMediaRecordFile = new saveMediaRecordFile(this);
+        saveMediaRecordFile mSaveMediaRecordFile = new saveMediaRecordFile();
         mSaveMediaRecordFile.setDownloadGifSuccessListener(absolutePath ->
                 Toast.makeText(MainActivity.this,
                         String.format("下载成功，【】", absolutePath),
                         Toast.LENGTH_LONG).show());
         mWebView.addJavascriptInterface(mSaveMediaRecordFile, "Android");
 
-
         MediaCommunication mediaCommunication = new MediaCommunication(this);
         mWebView.addJavascriptInterface(mediaCommunication, "AndroidWebRTC");
 
-        mWebView.loadUrl("https://webrtccommunication.ppamatrix.com:1447/rtc/index.html");
+        mWebView.loadUrl("https://webrtccommunication.ppamatrix.com:1447/rtc/doorplate.html");
 
-        localView = findViewById(R.id.localView);
+
+        //获取屏幕分享
         webRTC = WebRTC.get();
         webRTC.init(this);
-//        webRTC.renderView(localView);
         webRTC.getScreenSourceData();
 
     }
@@ -106,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
         permission.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    /**
+     * 处理屏幕分享
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

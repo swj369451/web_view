@@ -24,22 +24,12 @@ public class PeerConnect {
     //连接器集合
     HashMap<String, PeerConnection> peerConnectionMap =new HashMap<>();
 
-//    //连接器初始化对象
-//    private SurfaceTextureHelper surfaceTextureHelper;
-//    private PeerConnectionFactory peerConnectionFactory;
-//    private EglBase.Context eglBaseContext;
-
-    private Context context;
-
     //ice服务器
     List<PeerConnection.IceServer> iceServers;
 
     //单例
     private static PeerConnect instance;
-
-    private PeerConnect() {
-    }
-
+    private PeerConnect() {}
     public static PeerConnect get(Context applicationContext) {
         if (instance == null) {
             synchronized (SignalingClient.class) {
@@ -48,32 +38,14 @@ public class PeerConnect {
                 }
             }
         }
-        instance.init(applicationContext);
+        instance.init();
         return instance;
     }
 
-    public void init(Context applicationContext) {
-//        eglBaseContext = EglBase.create().getEglBaseContext();
-//        surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBaseContext);
-//
-//        // create PeerConnectionFactory
-//        PeerConnectionFactory.initialize(PeerConnectionFactory.InitializationOptions
-//                .builder(applicationContext)
-//                .createInitializationOptions());
-//        PeerConnectionFactory.Options options = new PeerConnectionFactory.Options();
-//        DefaultVideoEncoderFactory defaultVideoEncoderFactory =
-//                new DefaultVideoEncoderFactory(eglBaseContext, true, true);
-//        DefaultVideoDecoderFactory defaultVideoDecoderFactory =
-//                new DefaultVideoDecoderFactory(eglBaseContext);
-//        peerConnectionFactory = PeerConnectionFactory.builder()
-//                .setOptions(options)
-//                .setVideoEncoderFactory(defaultVideoEncoderFactory)
-//                .setVideoDecoderFactory(defaultVideoDecoderFactory)
-//                .createPeerConnectionFactory();
 
+    public void init() {
         iceServers = new ArrayList<>();
         iceServers.add(PeerConnection.IceServer.builder("stun:101.35.181.216:8084").createIceServer());
-//        iceServers.add(PeerConnection.IceServer.builder("stun:stun.l.google.com:19302").createIceServer());
         iceServers.add(new PeerConnection.IceServer("turn:139.9.45.150:3478","test","123"));
     }
 
